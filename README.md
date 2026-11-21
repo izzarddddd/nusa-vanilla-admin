@@ -1,6 +1,6 @@
-# Nusa Vanilla Admin
+# Tropic Bean Co. Admin
 
-Portal administrator untuk toko ekspor vanili **Nusa Vanilla**. Aplikasi statis terpisah dari situs publik, tetapi memakai **project Supabase yang sama**.
+Portal administrator untuk toko ekspor vanili **Tropic Bean Co.**. Aplikasi statis terpisah dari situs publik, tetapi memakai **project Supabase yang sama**.
 
 - Situs publik: https://izzarddddd.github.io/nusa-vanilla/ (repo `nusa-vanilla`)
 - Portal admin: https://izzarddddd.github.io/nusa-vanilla-admin/ (repo ini)

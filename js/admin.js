@@ -1,4 +1,4 @@
-/* Portal admin Nusa Vanilla (aplikasi terpisah): dashboard, produk, RFQ, buyer. */
+/* Portal admin Tropic Bean Co. (aplikasi terpisah): dashboard, produk, RFQ, buyer. */
 (function () {
   const { esc, $, $$, fmtDate, fmtDay, toast, seo, download } = window.NV;
   const L = window.NVLib, D = window.NVData;
@@ -25,7 +25,7 @@
 
   function shell(tab, inner) {
     const link = (k, t) => `<a href="#/${k}" class="${tab === k ? 'on' : ''}">${t}</a>`;
-    return `<div class="a-shell"><aside class="a-side"><div class="a-brand">Nusa Vanilla <small>Admin</small></div>${link('', 'Dashboard')}${link('inquiries', 'Inquiry RFQ')}${link('buyers', 'Buyer')}${link('products', 'Produk')}<div class="grow"></div><a href="${esc(window.PUBLIC_SITE_URL || '#')}" target="_blank" rel="noopener">Lihat situs ↗</a><a href="#" id="out">Keluar</a></aside><main class="a-main" id="a-main">${inner}</main></div>`;
+    return `<div class="a-shell"><aside class="a-side"><div class="a-brand">Tropic Bean Co. <small>Admin</small></div>${link('', 'Dashboard')}${link('inquiries', 'Inquiry RFQ')}${link('buyers', 'Buyer')}${link('products', 'Produk')}<div class="grow"></div><a href="${esc(window.PUBLIC_SITE_URL || '#')}" target="_blank" rel="noopener">Lihat situs ↗</a><a href="#" id="out">Keluar</a></aside><main class="a-main" id="a-main">${inner}</main></div>`;
   }
   function bindShell(app) { const o = $('#out', app); o.onclick = async e => { e.preventDefault(); await D.logout(); location.hash = '#/login'; }; }
 
@@ -39,9 +39,9 @@
   /* ───────── login ───────── */
   let fails = 0;
   function login(app) {
-    seo('Masuk | Admin Nusa Vanilla');
+    seo('Masuk | Admin Tropic Bean Co.');
     const next = decodeURIComponent((location.hash.split('?next=')[1] || '#/'));
-    app.innerHTML = `<div class="a-login"><form class="a-card" novalidate><h1 style="margin:0 0 4px;font-size:1.3rem">Masuk admin</h1><p style="margin:0 0 8px;color:#71717a;font-size:.9rem">Portal pengelola Nusa Vanilla.</p>
+    app.innerHTML = `<div class="a-login"><form class="a-card" novalidate><h1 style="margin:0 0 4px;font-size:1.3rem">Masuk admin</h1><p style="margin:0 0 8px;color:#71717a;font-size:.9rem">Portal pengelola Tropic Bean Co..</p>
       <label class="a-label" for="a-em">Email</label><input class="a-in" id="a-em" type="email" autocomplete="username" required>
       <label class="a-label" for="a-pw">Kata sandi</label><input class="a-in" id="a-pw" type="password" autocomplete="current-password" required>
       <div class="a-err" id="a-e" role="alert"></div><div class="a-actions"><button class="a-btn pri" type="submit">Masuk</button></div></form></div>`;
@@ -70,7 +70,7 @@
 
   async function dashboard(app) {
     if (!await guard('#/')) return;
-    seo('Dashboard | Admin Nusa Vanilla');
+    seo('Dashboard | Admin Tropic Bean Co.');
     app.innerHTML = shell('', `<h1>Dashboard</h1><div id="d">${skeleton}</div>`); bindShell(app);
     try {
       const [rows, prods, buyers] = await Promise.all([D.inquiryStats(), D.products(), D.buyers()]);
@@ -106,7 +106,7 @@
   const pstate = { deleted: false };
   async function productsPage(app) {
     if (!await guard('#/products')) return;
-    seo('Produk | Admin Nusa Vanilla');
+    seo('Produk | Admin Tropic Bean Co.');
     app.innerHTML = shell('products', `<h1>Produk</h1><div class="a-tools"><label class="a-check"><input type="checkbox" id="del" ${pstate.deleted ? 'checked' : ''}> Tampilkan yang dihapus</label><span class="grow"></span><button class="a-btn pri" id="add">Tambah produk</button></div><div id="list">${skeleton}</div>`); bindShell(app);
     $('#add', app).onclick = () => productForm(null, () => productsPage(app));
     $('#del', app).onchange = e => { pstate.deleted = e.target.checked; productsPage(app); };
@@ -211,7 +211,7 @@
     if (!await guard('#/inquiries')) return;
     const qs = new URLSearchParams(location.hash.split('?')[1] || '');
     if (qs.get('status') && Object.keys(L.STATUS_FLOW).includes(qs.get('status'))) { istate.status = qs.get('status'); istate.page = 1; history.replaceState(null, '', '#/inquiries'); }
-    seo('Inquiry RFQ | Admin Nusa Vanilla');
+    seo('Inquiry RFQ | Admin Tropic Bean Co.');
     app.innerHTML = shell('inquiries', `<h1>Inquiry RFQ</h1><div class="a-tools"><label for="fs" class="a-label" style="margin:0">Status</label><select id="fs" style="width:auto"><option value="">Semua</option>${Object.keys(L.STATUS_FLOW).map(s => `<option value="${s}" ${istate.status === s ? 'selected' : ''}>${L.STATUS_LABEL[s]}</option>`).join('')}</select>
       <input class="a-in a-search" id="q" type="search" placeholder="Cari perusahaan, email, atau nomor RFQ" value="${esc(istate.search)}" aria-label="Cari RFQ"><span class="grow"></span><button class="a-btn" id="csv">Ekspor CSV</button></div><div id="list">${skeleton}</div>`); bindShell(app);
     $('#fs', app).onchange = e => { istate.status = e.target.value; istate.page = 1; inquiriesPage(app); };
@@ -280,7 +280,7 @@
   const group = rows => { const m = new Map(); for (const r of rows) { if (!r.buyer_id) continue; (m.get(r.buyer_id) || m.set(r.buyer_id, []).get(r.buyer_id)).push(r); } return m; };
   async function buyersPage(app) {
     if (!await guard('#/buyers')) return;
-    seo('Buyer | Admin Nusa Vanilla');
+    seo('Buyer | Admin Tropic Bean Co.');
     app.innerHTML = shell('buyers', `<h1>Buyer</h1><div class="a-tools"><input class="a-in a-search" id="q" type="search" placeholder="Cari perusahaan, kontak, email, atau negara" value="${esc(bstate.search)}" aria-label="Cari buyer"><select id="fl" style="width:auto" aria-label="Filter label"><option value="">Semua label</option>${Object.entries(L.BUYER_LABEL).map(([k, t]) => `<option value="${k}" ${bstate.label === k ? 'selected' : ''}>${t}</option>`).join('')}</select><span class="grow"></span><button class="a-btn" id="csv">Ekspor CSV</button></div><div id="list">${skeleton}</div>`); bindShell(app);
     let buyers, stats;
     try { [buyers, stats] = await Promise.all([D.buyers(), D.inquiryStats()]); } catch (e) { $('#list', app).innerHTML = errBox(e.message); $('[data-retry]', app).onclick = () => buyersPage(app); return; }
@@ -310,7 +310,7 @@
 
   async function buyerPage(app, id) {
     if (!await guard('#/buyers/' + id)) return;
-    seo('Detail buyer | Admin Nusa Vanilla');
+    seo('Detail buyer | Admin Tropic Bean Co.');
     app.innerHTML = shell('buyers', `<p class="a-back"><a href="#/buyers">← Semua buyer</a></p><div id="d">${skeleton}</div>`); bindShell(app);
     let b, r;
     try { [b, r] = await Promise.all([D.buyer(id), D.inquiries({ buyerId: id, all: true })]); } catch (e) { $('#d', app).innerHTML = errBox(e.message); $('[data-retry]', app).onclick = () => buyerPage(app, id); return; }

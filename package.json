@@ -1,7 +1,7 @@
 {
   "name": "nusa-vanilla-admin",
   "private": true,
-  "description": "Portal admin Nusa Vanilla (statis, GitHub Pages) + Supabase yang sama dengan situs publik",
+  "description": "Portal admin Tropic Bean Co. (statis, GitHub Pages) + Supabase yang sama dengan situs publik",
   "scripts": {
     "test": "node --test tests/*.test.js",
     "serve": "npx serve . -l 5174"
